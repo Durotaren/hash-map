@@ -33,7 +33,54 @@ class HashMap {
 
     return this.buckets[hashedKey];
   }
+
+  get(key) {
+    const hashedKey = this.hash(key);
+
+    if (this.buckets[hashedKey]) {
+      return this.buckets[hashedKey].value;
+    } else {
+      return null;
+    }
+  }
+
+  has(key) {
+    const hashedKey = this.hash(key);
+
+    if (this.buckets[hashedKey]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  remove(key) {
+    const hashedKey = this.hash(key);
+
+    if (this.buckets[hashedKey]) {
+      this.buckets[hashedKey] = null;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  length() {
+    let length = 0;
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i] !== null) {
+        length++;
+      }
+    }
+    return length;
+  }
+
+  clear() {
+    this.buckets.fill(null);
+  }
 }
 
 const hashMap = new HashMap();
 console.log(hashMap.set('Juggernaut', 'Dota 2'));
+console.log(hashMap.has('Juggernaut'));
+console.log(hashMap.length());

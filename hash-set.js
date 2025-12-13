@@ -1,11 +1,10 @@
-export class HashMap {
+export class HashSet {
   constructor() {
     this.capacity = 16;
     this.loadFactor = 0.75;
     this.buckets = new Array(this.capacity).fill(null);
     this.size = 0;
   }
-
   hash(key) {
     let hashCode = 0;
 
@@ -17,20 +16,18 @@ export class HashMap {
     return hashCode;
   }
 
-  set(key, value) {
+  set(key) {
     if (typeof key !== 'string') {
       return 'Only string keys are accepted.';
     }
 
     const hashedKey = this.hash(key);
 
-    if (this.buckets[hashedKey] !== null) {
-      if (this.buckets[hashedKey].key === key) {
-        this.buckets[hashedKey].value = value;
-      }
-    } else {
-      this.buckets[hashedKey] = { key: key, value: value };
+    if (this.buckets[hashedKey] === null) {
+      this.buckets[hashedKey] = key;
       this.size++;
+    } else {
+      return 'Key is already present.';
     }
 
     this.grow();
@@ -42,7 +39,7 @@ export class HashMap {
     const hashedKey = this.hash(key);
 
     if (this.buckets[hashedKey]) {
-      return this.buckets[hashedKey].value;
+      return this.buckets[hashedKey];
     } else {
       return null;
     }
@@ -76,34 +73,13 @@ export class HashMap {
 
   clear() {
     this.buckets.fill(null);
-    this.size = 0;
   }
 
   keys() {
     let arr = [];
     for (let i = 0; i < this.buckets.length; i++) {
       if (this.buckets[i] !== null) {
-        arr.push(this.buckets[i].key);
-      }
-    }
-    return arr;
-  }
-
-  values() {
-    let arr = [];
-    for (let i = 0; i < this.buckets.length; i++) {
-      if (this.buckets[i] !== null) {
-        arr.push(this.buckets[i].value);
-      }
-    }
-    return arr;
-  }
-
-  entries() {
-    let arr = [];
-    for (let i = 0; i < this.buckets.length; i++) {
-      if (this.buckets[i] !== null) {
-        arr.push([this.buckets[i].key, this.buckets[i].value]);
+        arr.push(this.buckets[i]);
       }
     }
     return arr;
@@ -117,9 +93,15 @@ export class HashMap {
       this.buckets = new Array(this.capacity).fill(null);
       oldBucket.forEach((item) => {
         if (item !== null) {
-          this.set(item.key, item.value);
+          this.set(item.key);
         }
       });
     }
   }
 }
+
+const test = new HashSet();
+console.log(test.set('apple'));
+test.set('banana');
+test.set('carrot');
+console.log(test.has('apple'));

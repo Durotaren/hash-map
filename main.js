@@ -8,18 +8,16 @@ test.set('dog', 'brown');
 test.set('elephant', 'gray');
 test.set('frog', 'green');
 test.set('grape', 'purple');
-test.set('hat', 'black');
 test.set('ice cream', 'white');
 test.set('jacket', 'blue');
 test.set('kite', 'pink');
-test.set('lion', 'golden');
-test.set('2', 'two');
-test.set('6', 'six');
 test.set('7', 'seven');
+test.set('8', 'seven');
+test.set('6', 'seven');
+test.set('22', 'twenty-two');
 
-console.log(test.remove('7'));
-console.log(test.has('7'));
 console.log(test.length());
-console.log(test.keys());
-console.log(test.values());
-console.log(test.entries());
+
+// console.log(test.keys());
+// console.log(test.values());
+// console.log(test.entries());

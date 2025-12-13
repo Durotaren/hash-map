@@ -1,4 +1,4 @@
-class HashMap {
+export class HashMap {
   constructor() {
     this.capacity = 16;
     this.loadFactor = 0.75;
@@ -30,6 +30,8 @@ class HashMap {
     } else {
       this.buckets[hashedKey] = { key: key, value: value };
     }
+
+    this.grow();
 
     return this.buckets[hashedKey];
   }
@@ -72,6 +74,7 @@ class HashMap {
         length++;
       }
     }
+
     return length;
   }
 
@@ -108,12 +111,17 @@ class HashMap {
     }
     return arr;
   }
-}
 
-const hashMap = new HashMap();
-console.log(hashMap.set('Juggernaut', 'Dota 2'));
-console.log(hashMap.set('Pudge', 'Dota 2'));
-console.log(hashMap.has('Juggernaut'));
-console.log(hashMap.keys());
-console.log(hashMap.values());
-console.log(hashMap.entries());
+  grow() {
+    if (this.length() > this.capacity * this.loadFactor) {
+      const oldBucket = this.buckets;
+      this.capacity = this.capacity * 2;
+      this.buckets = new Array(this.capacity).fill(null);
+      oldBucket.forEach((item) => {
+        if (item !== null) {
+          this.set(item.key, item.value);
+        }
+      });
+    }
+  }
+}
